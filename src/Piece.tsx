@@ -1,7 +1,12 @@
 import { FC } from 'react'
 
 import { useDrag } from 'react-dnd'
-import { useBoardStore } from './store/board.store'
+import {
+  deselect,
+  move as movePiece,
+  select,
+  useBoardStore,
+} from './store/board.store'
 import { usePiecesStore } from './store/pieces.store'
 import { PieceId } from './types/piece-id'
 
@@ -12,23 +17,31 @@ interface Props {
 }
 
 export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: 'piece',
-    item: { file, rank },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }))
-
   const pieces = usePiecesStore((state) => state.pieces)
   const piece = pieces.get(pieceId)!
   const selected = useBoardStore((state) => state.selected)
-  const select = useBoardStore((state) => state.select)
-  const deselect = useBoardStore((state) => state.deselect)
-  const movePiece = useBoardStore((state) => state.move)
+  const turn = useBoardStore((state) => state.turn)
+
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: 'piece',
+      item: { file, rank },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      canDrag() {
+        return pieces.get(pieceId)?.color === turn
+      },
+    }),
+    [turn]
+  )
 
   const onPieceClick = (event: React.MouseEvent) => {
     event.stopPropagation()
+
+    if (pieces.get(pieceId)?.color !== turn) {
+      return
+    }
 
     if (selected === null) {
       select({ file, rank })

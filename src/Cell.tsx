@@ -4,7 +4,7 @@ import { PieceComponent } from './Piece'
 import { Board } from './classes/board.class'
 import { FILES } from './constants/files.constant'
 import { RANKS } from './constants/ranks.constant'
-import { useBoardStore } from './store/board.store'
+import { move as movePiece, useBoardStore } from './store/board.store'
 import { Coordinate } from './types/coordinate.interface'
 
 const WHITE_CELL_COLOR = '#ebf4fc'
@@ -19,8 +19,6 @@ interface Props {
 export const CellComponent: FC<Props> = ({ rank, file }) => {
   const board: Board = useBoardStore((state) => state.board)
   const selected = useBoardStore((state) => state.selected)
-  const movePiece = useBoardStore((state) => state.move)
-  const deselect = useBoardStore((state) => state.deselect)
 
   const pieceId = board.get(rank, file)
 

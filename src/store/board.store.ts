@@ -38,8 +38,6 @@ export const move = (from: Coordinate, to: Coordinate) => {
     const nextTurn =
       state.turn === ColorEnum.White ? ColorEnum.Black : ColorEnum.White
 
-    console.log({ nextTurn })
-
     return { board: nextBoard, selected: null, turn: nextTurn }
   })
 }

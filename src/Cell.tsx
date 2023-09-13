@@ -25,6 +25,10 @@ export const CellComponent: FC<Props> = ({ rank, file }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'piece',
     drop: (from: Coordinate) => {
+      if (from.rank === rank && from.file === file) {
+        return
+      }
+
       movePiece(from, { rank, file })
     },
     collect: (monitor) => ({

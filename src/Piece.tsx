@@ -39,11 +39,11 @@ export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
   const onPieceClick = (event: React.MouseEvent) => {
     event.stopPropagation()
 
-    if (pieces.get(pieceId)?.color !== turn) {
-      return
-    }
-
     if (selected === null) {
+      if (pieces.get(pieceId)?.color !== turn) {
+        return
+      }
+
       select({ file, rank })
       return
     }
@@ -62,6 +62,7 @@ export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
       ref={drag}
       style={{
         opacity: isDragging ? 0.5 : 1,
+        pointerEvents: pieces.get(pieceId)?.color === turn ? 'auto' : 'none',
       }}
       className="h-full w-full"
       src={`src/assets/${piece.type}_${piece.color}.svg`}

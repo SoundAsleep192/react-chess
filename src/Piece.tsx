@@ -1,13 +1,6 @@
 import { FC } from 'react'
-
 import { useDrag } from 'react-dnd'
-import {
-  deselect,
-  move as movePiece,
-  select,
-  useBoardStore,
-} from './store/board.store'
-import { usePiecesStore } from './store/pieces.store'
+import { useChessStore } from './store/store'
 import { PieceId } from './types/piece-id'
 
 interface Props {
@@ -17,10 +10,14 @@ interface Props {
 }
 
 export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
-  const pieces = usePiecesStore((state) => state.pieces)
+  const pieces = useChessStore((state) => state.pieces)
+  const selected = useChessStore((state) => state.selected)
+  const turn = useChessStore((state) => state.turn)
+  const select = useChessStore((state) => state.select)
+  const deselect = useChessStore((state) => state.deselect)
+  const movePiece = useChessStore((state) => state.move)
+
   const piece = pieces.get(pieceId)!
-  const selected = useBoardStore((state) => state.selected)
-  const turn = useBoardStore((state) => state.turn)
 
   const [{ isDragging }, drag] = useDrag(
     () => ({

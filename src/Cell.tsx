@@ -1,10 +1,9 @@
 import { FC } from 'react'
 import { useDrop } from 'react-dnd'
 import { PieceComponent } from './Piece'
-import { Board } from './classes/board.class'
 import { FILES } from './constants/files.constant'
 import { RANKS } from './constants/ranks.constant'
-import { move as movePiece, useBoardStore } from './store/board.store'
+import { useChessStore } from './store/store'
 import { Coordinate } from './types/coordinate.interface'
 
 const WHITE_CELL_COLOR = '#ebf4fc'
@@ -17,8 +16,9 @@ interface Props {
 }
 
 export const CellComponent: FC<Props> = ({ rank, file }) => {
-  const board: Board = useBoardStore((state) => state.board)
-  const selected = useBoardStore((state) => state.selected)
+  const board = useChessStore((state) => state.board)
+  const selected = useChessStore((state) => state.selected)
+  const movePiece = useChessStore((state) => state.move)
 
   const pieceId = board.get(rank, file)
 

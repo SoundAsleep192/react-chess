@@ -3,6 +3,7 @@ import { Board } from '../classes/board.class'
 import { ColorEnum } from '../enums/color.enum'
 import { Coordinate } from '../types/coordinate.interface'
 import { PieceId } from '../types/piece-id'
+import { canMove } from '../utils/can-move.util'
 import { type StoreState } from './state.type'
 
 export interface BoardSlice {
@@ -32,6 +33,10 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
 
       if (pieceId === null) {
         return state
+      }
+
+      if (!canMove(from, to, state.board, state.pieces)) {
+        return { selected: null }
       }
 
       const nextBoard: Board = state.board

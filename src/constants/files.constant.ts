@@ -1,1 +1,1 @@
-export const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+export const FILES: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']

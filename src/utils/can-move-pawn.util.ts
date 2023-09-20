@@ -7,6 +7,7 @@ import { SetOfPieces } from '../types/set-of-pieces'
 import { coordinateExists } from './coordinate-exists.util'
 import { offsetCoordinate } from './offset-coordinate.util'
 
+/* TODO: En passant */
 export function canMovePawn(
   from: Coordinate,
   to: Coordinate,

@@ -4,6 +4,7 @@ import { Coordinate } from '../types/coordinate.interface'
 import { PieceId } from '../types/piece-id'
 import { SetOfPieces } from '../types/set-of-pieces'
 import { canMoveBishop } from './can-move-bishop.util'
+import { canMoveKing } from './can-move-king.util'
 import { canMoveKnight } from './can-move-knight.util'
 import { canMovePawn } from './can-move-pawn.util'
 import { canMoveQueen } from './can-move-queen.util'
@@ -41,6 +42,10 @@ export function canMove(
 
   if (piece.type === PieceTypeEnum.Queen) {
     return canMoveQueen(from, to, board, pieces, piece)
+  }
+
+  if (piece.type === PieceTypeEnum.King) {
+    return canMoveKing(from, to, board, pieces, piece)
   }
 
   return true

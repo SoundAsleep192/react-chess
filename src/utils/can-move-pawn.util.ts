@@ -13,9 +13,9 @@ export function canMovePawn(
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  piece: PieceEntity
+  pawn: PieceEntity
 ): boolean {
-  const vector: number = piece.color === ColorEnum.White ? 1 : -1
+  const vector: number = pawn.color === ColorEnum.White ? 1 : -1
 
   const validMoves: Coordinate[] = []
 
@@ -33,7 +33,7 @@ export function canMovePawn(
     longAdvanceMove.rank,
     longAdvanceMove.file
   )
-  const startingRank: number = piece.color === ColorEnum.White ? 2 : 7
+  const startingRank: number = pawn.color === ColorEnum.White ? 2 : 7
   if (
     from.rank === startingRank &&
     coordinateExists(advanceMove) &&
@@ -49,14 +49,21 @@ export function canMovePawn(
     offsetCoordinate(from, 1, vector),
   ]
 
-  captureMoves
-    .filter((move) => coordinateExists(move))
-    .map((side) => board.get(side.rank, side.file))
-    .filter((cell): cell is PieceId => cell !== null)
-    .filter((cell) => pieces.get(cell)!.color !== piece.color)
-    .forEach((_, validMoveIndex) =>
-      validMoves.push(captureMoves[validMoveIndex])
-    )
+  captureMoves.forEach((move, moveIndex) => {
+    if (!coordinateExists(move)) {
+      return
+    }
+
+    const cell: PieceId | null = board.get(move.rank, move.file)
+
+    if (cell === null || pieces.get(cell)!.color === pawn.color) {
+      return
+    }
+
+    validMoves.push(captureMoves[moveIndex])
+  })
+
+  console.log(validMoves)
 
   return validMoves.some(
     (move) => move.file === to.file && move.rank === to.rank

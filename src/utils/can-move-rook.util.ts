@@ -9,13 +9,13 @@ export function canMoveRook(
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  piece: PieceEntity
+  rook: PieceEntity
 ): boolean {
   const validMoves: Coordinate[] = [
-    ...getDirectionMoves(from, piece, board, pieces, 0, 1),
-    ...getDirectionMoves(from, piece, board, pieces, 0, -1),
-    ...getDirectionMoves(from, piece, board, pieces, 1, 0),
-    ...getDirectionMoves(from, piece, board, pieces, -1, 0),
+    ...getDirectionMoves(from, rook, board, pieces, 0, 1),
+    ...getDirectionMoves(from, rook, board, pieces, 0, -1),
+    ...getDirectionMoves(from, rook, board, pieces, 1, 0),
+    ...getDirectionMoves(from, rook, board, pieces, -1, 0),
   ]
 
   return validMoves.some(

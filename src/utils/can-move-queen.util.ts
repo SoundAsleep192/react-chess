@@ -9,17 +9,17 @@ export function canMoveQueen(
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  piece: PieceEntity
+  queen: PieceEntity
 ): boolean {
   const validMoves: Coordinate[] = [
-    ...getDirectionMoves(from, piece, board, pieces, 1, 1),
-    ...getDirectionMoves(from, piece, board, pieces, -1, 1),
-    ...getDirectionMoves(from, piece, board, pieces, 1, -1),
-    ...getDirectionMoves(from, piece, board, pieces, -1, -1),
-    ...getDirectionMoves(from, piece, board, pieces, 0, 1),
-    ...getDirectionMoves(from, piece, board, pieces, 0, -1),
-    ...getDirectionMoves(from, piece, board, pieces, 1, 0),
-    ...getDirectionMoves(from, piece, board, pieces, -1, 0),
+    ...getDirectionMoves(from, queen, board, pieces, 1, 1),
+    ...getDirectionMoves(from, queen, board, pieces, -1, 1),
+    ...getDirectionMoves(from, queen, board, pieces, 1, -1),
+    ...getDirectionMoves(from, queen, board, pieces, -1, -1),
+    ...getDirectionMoves(from, queen, board, pieces, 0, 1),
+    ...getDirectionMoves(from, queen, board, pieces, 0, -1),
+    ...getDirectionMoves(from, queen, board, pieces, 1, 0),
+    ...getDirectionMoves(from, queen, board, pieces, -1, 0),
   ]
 
   return validMoves.some(

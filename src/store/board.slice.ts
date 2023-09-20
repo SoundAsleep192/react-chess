@@ -4,6 +4,7 @@ import { ColorEnum } from '../enums/color.enum'
 import { Coordinate } from '../types/coordinate.interface'
 import { PieceId } from '../types/piece-id'
 import { canMove } from '../utils/can-move.util'
+import { checkKingSafety } from '../utils/check-king-safety.util'
 import { type StoreState } from './state.type'
 
 export interface BoardSlice {
@@ -35,7 +36,10 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
         return state
       }
 
-      if (!canMove(from, to, state.board, state.pieces)) {
+      if (
+        !canMove(from, to, state.board, state.pieces) ||
+        !checkKingSafety(from, to, state.board, state.pieces)
+      ) {
         return { selected: null }
       }
 

@@ -11,7 +11,7 @@ export function canMoveKing(
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  piece: PieceEntity
+  king: PieceEntity
 ): boolean {
   const possibleMoves: Coordinate[] = [
     offsetCoordinate(from, 1, 1),
@@ -37,7 +37,7 @@ export function canMoveKing(
 
     const targetPiece: PieceEntity = pieces.get(targetCellContent)!
 
-    return targetPiece.color !== piece.color
+    return targetPiece.color !== king.color
   })
 
   return validMoves.some(

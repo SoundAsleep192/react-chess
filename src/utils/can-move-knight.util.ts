@@ -11,7 +11,7 @@ export function canMoveKnight(
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  piece: PieceEntity
+  knight: PieceEntity
 ): boolean {
   const possibleMoves: Coordinate[] = [
     offsetCoordinate(from, 2, 1),
@@ -37,7 +37,7 @@ export function canMoveKnight(
 
     const targetPiece: PieceEntity = pieces.get(targetCellContent)!
 
-    return targetPiece.color !== piece.color
+    return targetPiece.color !== knight.color
   })
 
   return validMoves.some(

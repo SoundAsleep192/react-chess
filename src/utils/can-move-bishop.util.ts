@@ -9,13 +9,13 @@ export function canMoveBishop(
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  piece: PieceEntity
+  bishop: PieceEntity
 ): boolean {
   const validMoves: Coordinate[] = [
-    ...getDirectionMoves(from, piece, board, pieces, 1, 1),
-    ...getDirectionMoves(from, piece, board, pieces, -1, 1),
-    ...getDirectionMoves(from, piece, board, pieces, 1, -1),
-    ...getDirectionMoves(from, piece, board, pieces, -1, -1),
+    ...getDirectionMoves(from, bishop, board, pieces, 1, 1),
+    ...getDirectionMoves(from, bishop, board, pieces, -1, 1),
+    ...getDirectionMoves(from, bishop, board, pieces, 1, -1),
+    ...getDirectionMoves(from, bishop, board, pieces, -1, -1),
   ]
 
   return validMoves.some(

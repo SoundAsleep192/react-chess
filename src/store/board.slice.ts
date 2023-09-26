@@ -12,6 +12,8 @@ import { type StoreState } from './state.type'
 export interface BoardSlice {
   board: Board
   selected: Coordinate | null
+  lastFrom: Coordinate | null
+  lastTo: Coordinate | null
   turn: ColorEnum
   enPassant: Coordinate | null
   enPassantPawn: PieceId | null
@@ -25,6 +27,8 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
 ) => ({
   board: new Board(),
   selected: null,
+  lastFrom: null,
+  lastTo: null,
   turn: ColorEnum.White,
   enPassant: null,
   enPassantPawn: null,
@@ -76,6 +80,8 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
       return {
         board: enPassantCaptureBoard ?? nextBoard,
         selected: null,
+        lastFrom: from,
+        lastTo: to,
         turn: nextTurn,
         enPassant,
         enPassantPawn: enPassant ? pieceId : null,

@@ -14,7 +14,8 @@ export function canMove(
   from: Coordinate,
   to: Coordinate,
   board: Board,
-  pieces: SetOfPieces
+  pieces: SetOfPieces,
+  enPassant: Coordinate | null
 ): boolean {
   const pieceId: PieceId | null = board.get(from.rank, from.file)
 
@@ -25,7 +26,7 @@ export function canMove(
   const piece = pieces.get(pieceId)!
 
   if (piece.type === PieceTypeEnum.Pawn) {
-    return canMovePawn(from, to, board, pieces, piece)
+    return canMovePawn(from, to, board, pieces, piece, enPassant)
   }
 
   if (piece.type === PieceTypeEnum.Knight) {

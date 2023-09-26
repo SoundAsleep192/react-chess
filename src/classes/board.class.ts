@@ -29,7 +29,7 @@ export class Board {
   get(rank: number, file: string): PieceId | null {
     const rankIndex = RANKS.findIndex((item) => item === rank)
     const fileIndex = FILES.findIndex((item) => item === file)
-    return this.content[rankIndex][fileIndex]
+    return this.content?.[rankIndex]?.[fileIndex] ?? null
   }
 
   getCoordinate(pieceId: PieceId): Coordinate | null {

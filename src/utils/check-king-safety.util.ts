@@ -42,6 +42,6 @@ export function checkKingSafety(
     .filter((coordinate): coordinate is Coordinate => coordinate !== null)
 
   return !opponentsPieceCoordinates.some((from) =>
-    canMove(from, kingCoordinates, nextBoard, pieces)
+    canMove(from, kingCoordinates, nextBoard, pieces, null)
   )
 }

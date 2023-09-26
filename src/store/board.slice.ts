@@ -4,6 +4,8 @@ import { ColorEnum } from '../enums/color.enum'
 import { Coordinate } from '../types/coordinate.interface'
 import { PieceId } from '../types/piece-id'
 import { canMove } from '../utils/can-move.util'
+import { checkEnPassantCapture } from '../utils/check-en-passant-capture.util'
+import { checkEnPassant } from '../utils/check-en-passant.util'
 import { checkKingSafety } from '../utils/check-king-safety.util'
 import { type StoreState } from './state.type'
 
@@ -11,6 +13,8 @@ export interface BoardSlice {
   board: Board
   selected: Coordinate | null
   turn: ColorEnum
+  enPassant: Coordinate | null
+  enPassantPawn: PieceId | null
   select: (coordinate: Coordinate) => void
   deselect: () => void
   move: (from: Coordinate, to: Coordinate) => void
@@ -22,6 +26,8 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
   board: new Board(),
   selected: null,
   turn: ColorEnum.White,
+  enPassant: null,
+  enPassantPawn: null,
   select: (coordinate) => {
     set(() => ({ selected: coordinate }))
   },
@@ -37,7 +43,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
       }
 
       if (
-        !canMove(from, to, state.board, state.pieces) ||
+        !canMove(from, to, state.board, state.pieces, state.enPassant) ||
         !checkKingSafety(from, to, state.board, state.pieces)
       ) {
         return { selected: null }
@@ -50,7 +56,30 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
       const nextTurn =
         state.turn === ColorEnum.White ? ColorEnum.Black : ColorEnum.White
 
-      return { board: nextBoard, selected: null, turn: nextTurn }
+      const enPassantCaptureBoard: Board | null = checkEnPassantCapture(
+        from,
+        to,
+        state.board,
+        nextBoard,
+        state.pieces,
+        state.enPassant,
+        state.enPassantPawn
+      )
+
+      const enPassant: Coordinate | null = checkEnPassant(
+        from,
+        to,
+        state.board,
+        state.pieces
+      )
+
+      return {
+        board: enPassantCaptureBoard ?? nextBoard,
+        selected: null,
+        turn: nextTurn,
+        enPassant,
+        enPassantPawn: enPassant ? pieceId : null,
+      }
     })
   },
 })

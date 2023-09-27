@@ -30,19 +30,22 @@ export const CellComponent: FC<Props> = ({ rank, file }) => {
     (move) => move.file === file && move.rank === rank
   )
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: 'piece',
-    drop: (from: Coordinate) => {
-      if (!isValidMoveCell) {
-        return
-      }
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: 'piece',
+      drop: (from: Coordinate) => {
+        if (!isValidMoveCell) {
+          return
+        }
 
-      movePiece(from, { rank, file })
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+        movePiece(from, { rank, file })
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
     }),
-  }))
+    [isValidMoveCell]
+  )
 
   const onCellClick = () => {
     if (selected === null) {

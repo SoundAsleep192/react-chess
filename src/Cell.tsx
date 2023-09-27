@@ -22,11 +22,11 @@ export const CellComponent: FC<Props> = ({ rank, file }) => {
   const lastFrom = useChessStore((state) => state.lastFrom)
   const lastTo = useChessStore((state) => state.lastTo)
   const movePiece = useChessStore((state) => state.move)
-  const validMoves = useChessStore((state) => state.validMoves)
+  const legalMoves = useChessStore((state) => state.legalMoves)
 
   const pieceId = board.get(rank, file)
 
-  const isValidMoveCell = validMoves.some(
+  const isValidMoveCell = legalMoves.some(
     (move) => move.file === file && move.rank === rank
   )
 

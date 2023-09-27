@@ -3,14 +3,14 @@ import { PieceTypeEnum } from '../enums/piece-type.enum'
 import { Coordinate } from '../types/coordinate.interface'
 import { PieceId } from '../types/piece-id'
 import { SetOfPieces } from '../types/set-of-pieces'
-import { getValidMovesBishop } from './get-valid-moves-bishop.util'
-import { getValidMovesKing } from './get-valid-moves-king.util'
-import { getValidMovesKnight } from './get-valid-moves-knight.util'
-import { getValidMovesPawn } from './get-valid-moves-pawn.util'
-import { getValidMovesQueen } from './get-valid-moves-queen.util'
-import { getValidMovesRook } from './get-valid-moves-rook.util'
+import { getLegalMovesBishop } from './get-legal-moves-bishop.util'
+import { getLegalMovesKing } from './get-legal-moves-king.util'
+import { getLegalMovesKnight } from './get-legal-moves-knight.util'
+import { getLegalMovesPawn } from './get-legal-moves-pawn.util'
+import { getLegalMovesQueen } from './get-legal-moves-queen.util'
+import { getLegalMovesRook } from './get-legal-moves-rook.util'
 
-export function getValidMoves(
+export function getLegalMoves(
   from: Coordinate | null,
   board: Board,
   pieces: SetOfPieces,
@@ -29,27 +29,27 @@ export function getValidMoves(
   const piece = pieces.get(pieceId)!
 
   if (piece.type === PieceTypeEnum.Pawn) {
-    return getValidMovesPawn(from, board, pieces, piece, enPassant)
+    return getLegalMovesPawn(from, board, pieces, piece, enPassant)
   }
 
   if (piece.type === PieceTypeEnum.Knight) {
-    return getValidMovesKnight(from, board, pieces, piece)
+    return getLegalMovesKnight(from, board, pieces, piece)
   }
 
   if (piece.type === PieceTypeEnum.Bishop) {
-    return getValidMovesBishop(from, board, pieces, piece)
+    return getLegalMovesBishop(from, board, pieces, piece)
   }
 
   if (piece.type === PieceTypeEnum.Rook) {
-    return getValidMovesRook(from, board, pieces, piece)
+    return getLegalMovesRook(from, board, pieces, piece)
   }
 
   if (piece.type === PieceTypeEnum.Queen) {
-    return getValidMovesQueen(from, board, pieces, piece)
+    return getLegalMovesQueen(from, board, pieces, piece)
   }
 
   if (piece.type === PieceTypeEnum.King) {
-    return getValidMovesKing(from, board, pieces, piece)
+    return getLegalMovesKing(from, board, pieces, piece)
   }
 
   return []

@@ -14,7 +14,7 @@ export function getDirectionMoves(
   xDirection: 0 | 1 | -1,
   yDirection: 0 | 1 | -1
 ): Coordinate[] {
-  const validMoves: Coordinate[] = []
+  const legalMoves: Coordinate[] = []
 
   let currentMove: Coordinate = offsetCoordinate(from, xDirection, yDirection)
 
@@ -28,15 +28,15 @@ export function getDirectionMoves(
       const targetPiece: PieceEntity = pieces.get(currentCell)!
 
       if (targetPiece.color !== piece.color) {
-        validMoves.push(currentMove)
+        legalMoves.push(currentMove)
       }
 
       break
     }
 
-    validMoves.push(currentMove)
+    legalMoves.push(currentMove)
     currentMove = offsetCoordinate(currentMove, xDirection, yDirection)
   }
 
-  return validMoves
+  return legalMoves
 }

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { useDrag } from 'react-dnd'
+import { DragPreviewImage, useDrag } from 'react-dnd'
 import { useChessStore } from './store/store'
 import { PieceId } from './types/piece-id'
 
@@ -19,7 +19,7 @@ export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
 
   const piece = pieces.get(pieceId)!
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, preview] = useDrag(
     () => ({
       type: 'piece',
       item: () => {
@@ -59,16 +59,22 @@ export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
   }
 
   return (
-    <img
-      onClick={onPieceClick}
-      ref={drag}
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        pointerEvents: pieces.get(pieceId)?.color === turn ? 'auto' : 'none',
-      }}
-      className="h-full w-full"
-      src={`src/assets/${piece.type}_${piece.color}.svg`}
-      alt={`${piece.color} ${piece.type}`}
-    ></img>
+    <>
+      <DragPreviewImage
+        connect={preview}
+        src={`src/assets/${piece.type}_${piece.color}.svg`}
+      ></DragPreviewImage>
+      <img
+        onClick={onPieceClick}
+        ref={drag}
+        style={{
+          opacity: isDragging ? 0.5 : 1,
+          pointerEvents: pieces.get(pieceId)?.color === turn ? 'auto' : 'none',
+        }}
+        className="h-full w-full"
+        src={`src/assets/${piece.type}_${piece.color}.svg`}
+        alt={`${piece.color} ${piece.type}`}
+      ></img>
+    </>
   )
 }

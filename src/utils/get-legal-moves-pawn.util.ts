@@ -7,7 +7,7 @@ import { SetOfPieces } from '../types/set-of-pieces'
 import { coordinateExists } from './coordinate-exists.util'
 import { offsetCoordinate } from './offset-coordinate.util'
 
-export function getValidMovesPawn(
+export function getLegalMovesPawn(
   from: Coordinate,
   board: Board,
   pieces: SetOfPieces,
@@ -16,7 +16,7 @@ export function getValidMovesPawn(
 ): Coordinate[] {
   const vector: number = pawn.color === ColorEnum.White ? 1 : -1
 
-  const validMoves: Coordinate[] = []
+  const legalMoves: Coordinate[] = []
 
   const advanceMove: Coordinate = offsetCoordinate(from, 0, vector)
   const advanceCell: PieceId | null = board.get(
@@ -24,7 +24,7 @@ export function getValidMovesPawn(
     advanceMove.file
   )
   if (coordinateExists(advanceMove) && advanceCell === null) {
-    validMoves.push(advanceMove)
+    legalMoves.push(advanceMove)
   }
 
   const longAdvanceMove: Coordinate = offsetCoordinate(from, 0, vector * 2)
@@ -40,7 +40,7 @@ export function getValidMovesPawn(
     advanceCell === null &&
     longAdvanceCell === null
   ) {
-    validMoves.push(longAdvanceMove)
+    legalMoves.push(longAdvanceMove)
   }
 
   const captureMoves: Coordinate[] = [
@@ -58,7 +58,7 @@ export function getValidMovesPawn(
       enPassant.rank === move.rank &&
       enPassant.file === move.file
     ) {
-      validMoves.push(captureMoves[moveIndex])
+      legalMoves.push(captureMoves[moveIndex])
       return
     }
 
@@ -68,8 +68,8 @@ export function getValidMovesPawn(
       return
     }
 
-    validMoves.push(captureMoves[moveIndex])
+    legalMoves.push(captureMoves[moveIndex])
   })
 
-  return validMoves
+  return legalMoves
 }

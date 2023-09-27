@@ -6,24 +6,24 @@ import { SetOfPieces } from '../types/set-of-pieces'
 import { coordinateExists } from './coordinate-exists.util'
 import { offsetCoordinate } from './offset-coordinate.util'
 
-export function getValidMovesKnight(
+export function getLegalMovesKing(
   from: Coordinate,
   board: Board,
   pieces: SetOfPieces,
-  knight: PieceEntity
+  king: PieceEntity
 ): Coordinate[] {
   const possibleMoves: Coordinate[] = [
-    offsetCoordinate(from, 2, 1),
-    offsetCoordinate(from, -2, 1),
-    offsetCoordinate(from, 2, -1),
-    offsetCoordinate(from, -2, -1),
-    offsetCoordinate(from, 1, 2),
-    offsetCoordinate(from, -1, 2),
-    offsetCoordinate(from, 1, -2),
-    offsetCoordinate(from, -1, -2),
+    offsetCoordinate(from, 1, 1),
+    offsetCoordinate(from, -1, 1),
+    offsetCoordinate(from, 1, -1),
+    offsetCoordinate(from, -1, -1),
+    offsetCoordinate(from, 0, 1),
+    offsetCoordinate(from, 0, -1),
+    offsetCoordinate(from, 1, 0),
+    offsetCoordinate(from, -1, 0),
   ]
 
-  const validMoves: Coordinate[] = possibleMoves.filter((move) => {
+  const legalMoves: Coordinate[] = possibleMoves.filter((move) => {
     if (!coordinateExists(move)) {
       return false
     }
@@ -36,8 +36,8 @@ export function getValidMovesKnight(
 
     const targetPiece: PieceEntity = pieces.get(targetCellContent)!
 
-    return targetPiece.color !== knight.color
+    return targetPiece.color !== king.color
   })
 
-  return validMoves
+  return legalMoves
 }

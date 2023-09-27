@@ -7,13 +7,13 @@ import { canMove } from '../utils/can-move.util'
 import { checkEnPassantCapture } from '../utils/check-en-passant-capture.util'
 import { checkEnPassant } from '../utils/check-en-passant.util'
 import { checkKingSafety } from '../utils/check-king-safety.util'
-import { getValidMoves } from '../utils/get-valid-moves.util'
+import { getLegalMoves } from '../utils/get-legal-moves.util'
 import { type StoreState } from './state.type'
 
 export interface BoardSlice {
   board: Board
   selected: Coordinate | null
-  validMoves: Coordinate[]
+  legalMoves: Coordinate[]
   lastFrom: Coordinate | null
   lastTo: Coordinate | null
   turn: ColorEnum
@@ -29,7 +29,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
 ) => ({
   board: new Board(),
   selected: null,
-  validMoves: [],
+  legalMoves: [],
   lastFrom: null,
   lastTo: null,
   turn: ColorEnum.White,
@@ -37,18 +37,18 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
   enPassantPawn: null,
   select: (coordinate) => {
     set((state) => {
-      const validMoves = getValidMoves(
+      const legalMoves = getLegalMoves(
         coordinate,
         state.board,
         state.pieces,
         state.enPassant
       )
 
-      return { selected: coordinate, validMoves }
+      return { selected: coordinate, legalMoves }
     })
   },
   deselect: () => {
-    set(() => ({ selected: null, validMoves: [] }))
+    set(() => ({ selected: null, legalMoves: [] }))
   },
   move: (from, to) => {
     set((state) => {
@@ -62,7 +62,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
         !canMove(from, to, state.board, state.pieces, state.enPassant) ||
         !checkKingSafety(from, to, state.board, state.pieces)
       ) {
-        return { selected: null, validMoves: [] }
+        return { selected: null, legalMoves: [] }
       }
 
       const nextBoard: Board = state.board
@@ -92,7 +92,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
       return {
         board: enPassantCaptureBoard ?? nextBoard,
         selected: null,
-        validMoves: [],
+        legalMoves: [],
         lastFrom: from,
         lastTo: to,
         turn: nextTurn,

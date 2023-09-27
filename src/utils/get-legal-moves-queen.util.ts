@@ -4,13 +4,13 @@ import { PieceEntity } from '../types/piece.interface'
 import { SetOfPieces } from '../types/set-of-pieces'
 import { getDirectionMoves } from './get-direction-moves.util'
 
-export function getValidMovesQueen(
+export function getLegalMovesQueen(
   from: Coordinate,
   board: Board,
   pieces: SetOfPieces,
   queen: PieceEntity
 ): Coordinate[] {
-  const validMoves: Coordinate[] = [
+  const legalMoves: Coordinate[] = [
     ...getDirectionMoves(from, queen, board, pieces, 1, 1),
     ...getDirectionMoves(from, queen, board, pieces, -1, 1),
     ...getDirectionMoves(from, queen, board, pieces, 1, -1),
@@ -21,5 +21,5 @@ export function getValidMovesQueen(
     ...getDirectionMoves(from, queen, board, pieces, -1, 0),
   ]
 
-  return validMoves
+  return legalMoves
 }

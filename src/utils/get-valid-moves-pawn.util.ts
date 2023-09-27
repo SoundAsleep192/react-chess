@@ -7,14 +7,13 @@ import { SetOfPieces } from '../types/set-of-pieces'
 import { coordinateExists } from './coordinate-exists.util'
 import { offsetCoordinate } from './offset-coordinate.util'
 
-export function canMovePawn(
+export function getValidMovesPawn(
   from: Coordinate,
-  to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
   pawn: PieceEntity,
   enPassant: Coordinate | null
-): boolean {
+): Coordinate[] {
   const vector: number = pawn.color === ColorEnum.White ? 1 : -1
 
   const validMoves: Coordinate[] = []
@@ -72,7 +71,5 @@ export function canMovePawn(
     validMoves.push(captureMoves[moveIndex])
   })
 
-  return validMoves.some(
-    (move) => move.file === to.file && move.rank === to.rank
-  )
+  return validMoves
 }

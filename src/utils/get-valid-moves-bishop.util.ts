@@ -4,21 +4,16 @@ import { PieceEntity } from '../types/piece.interface'
 import { SetOfPieces } from '../types/set-of-pieces'
 import { getDirectionMoves } from './get-direction-moves.util'
 
-export function canMoveBishop(
+export function getValidMovesBishop(
   from: Coordinate,
-  to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
   bishop: PieceEntity
-): boolean {
-  const validMoves: Coordinate[] = [
+): Coordinate[] {
+  return [
     ...getDirectionMoves(from, bishop, board, pieces, 1, 1),
     ...getDirectionMoves(from, bishop, board, pieces, -1, 1),
     ...getDirectionMoves(from, bishop, board, pieces, 1, -1),
     ...getDirectionMoves(from, bishop, board, pieces, -1, -1),
   ]
-
-  return validMoves.some(
-    (move) => move.file === to.file && move.rank === to.rank
-  )
 }

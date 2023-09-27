@@ -22,13 +22,18 @@ export const CellComponent: FC<Props> = ({ rank, file }) => {
   const lastFrom = useChessStore((state) => state.lastFrom)
   const lastTo = useChessStore((state) => state.lastTo)
   const movePiece = useChessStore((state) => state.move)
+  const validMoves = useChessStore((state) => state.validMoves)
 
   const pieceId = board.get(rank, file)
+
+  const isValidMoveCell = validMoves.some(
+    (move) => move.file === file && move.rank === rank
+  )
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: 'piece',
     drop: (from: Coordinate) => {
-      if (from.rank === rank && from.file === file) {
+      if (!isValidMoveCell) {
         return
       }
 
@@ -51,7 +56,7 @@ export const CellComponent: FC<Props> = ({ rank, file }) => {
     <div
       onClick={onCellClick}
       ref={drop}
-      className="cell w-20 h-20 flex justify-center items-center"
+      className="cell w-20 h-20 flex justify-center items-center relative"
       style={{
         backgroundColor: getCellColor(rank, file, selected, lastFrom, lastTo),
       }}
@@ -62,6 +67,9 @@ export const CellComponent: FC<Props> = ({ rank, file }) => {
           file={file}
           rank={rank}
         ></PieceComponent>
+      )}
+      {isValidMoveCell && (
+        <div className="absolute w-5 h-5 opacity-40 bg-slate-600 pointer-events-none rounded-full"></div>
       )}
     </div>
   )

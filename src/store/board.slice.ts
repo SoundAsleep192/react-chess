@@ -7,11 +7,13 @@ import { canMove } from '../utils/can-move.util'
 import { checkEnPassantCapture } from '../utils/check-en-passant-capture.util'
 import { checkEnPassant } from '../utils/check-en-passant.util'
 import { checkKingSafety } from '../utils/check-king-safety.util'
+import { getValidMoves } from '../utils/get-valid-moves.util'
 import { type StoreState } from './state.type'
 
 export interface BoardSlice {
   board: Board
   selected: Coordinate | null
+  validMoves: Coordinate[]
   lastFrom: Coordinate | null
   lastTo: Coordinate | null
   turn: ColorEnum
@@ -27,16 +29,26 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
 ) => ({
   board: new Board(),
   selected: null,
+  validMoves: [],
   lastFrom: null,
   lastTo: null,
   turn: ColorEnum.White,
   enPassant: null,
   enPassantPawn: null,
   select: (coordinate) => {
-    set(() => ({ selected: coordinate }))
+    set((state) => {
+      const validMoves = getValidMoves(
+        coordinate,
+        state.board,
+        state.pieces,
+        state.enPassant
+      )
+
+      return { selected: coordinate, validMoves }
+    })
   },
   deselect: () => {
-    set(() => ({ selected: null }))
+    set(() => ({ selected: null, validMoves: [] }))
   },
   move: (from, to) => {
     set((state) => {
@@ -50,7 +62,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
         !canMove(from, to, state.board, state.pieces, state.enPassant) ||
         !checkKingSafety(from, to, state.board, state.pieces)
       ) {
-        return { selected: null }
+        return { selected: null, validMoves: [] }
       }
 
       const nextBoard: Board = state.board
@@ -80,6 +92,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
       return {
         board: enPassantCaptureBoard ?? nextBoard,
         selected: null,
+        validMoves: [],
         lastFrom: from,
         lastTo: to,
         turn: nextTurn,

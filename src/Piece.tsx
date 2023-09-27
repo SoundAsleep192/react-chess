@@ -22,7 +22,10 @@ export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: 'piece',
-      item: { file, rank },
+      item: () => {
+        select({ file, rank })
+        return { file, rank }
+      },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
@@ -36,21 +39,23 @@ export const PieceComponent: FC<Props> = ({ pieceId, file, rank }) => {
   const onPieceClick = (event: React.MouseEvent) => {
     event.stopPropagation()
 
-    if (selected === null) {
-      if (pieces.get(pieceId)?.color !== turn) {
+    if (selected !== null) {
+      if (selected.file === file && selected.rank === rank) {
+        deselect()
         return
       }
 
-      select({ file, rank })
+      if (pieces.get(pieceId)?.color !== turn) {
+        movePiece(selected, { file, rank })
+        return
+      }
+    }
+
+    if (pieces.get(pieceId)?.color !== turn) {
       return
     }
 
-    if (selected.file === file && selected.rank === rank) {
-      deselect()
-      return
-    }
-
-    movePiece(selected, { file, rank })
+    select({ file, rank })
   }
 
   return (

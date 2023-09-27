@@ -1,14 +1,7 @@
 import { Board } from '../classes/board.class'
-import { PieceTypeEnum } from '../enums/piece-type.enum'
 import { Coordinate } from '../types/coordinate.interface'
-import { PieceId } from '../types/piece-id'
 import { SetOfPieces } from '../types/set-of-pieces'
-import { canMoveBishop } from './can-move-bishop.util'
-import { canMoveKing } from './can-move-king.util'
-import { canMoveKnight } from './can-move-knight.util'
-import { canMovePawn } from './can-move-pawn.util'
-import { canMoveQueen } from './can-move-queen.util'
-import { canMoveRook } from './can-move-rook.util'
+import { getValidMoves } from './get-valid-moves.util'
 
 export function canMove(
   from: Coordinate,
@@ -17,37 +10,9 @@ export function canMove(
   pieces: SetOfPieces,
   enPassant: Coordinate | null
 ): boolean {
-  const pieceId: PieceId | null = board.get(from.rank, from.file)
+  const validMoves = getValidMoves(from, board, pieces, enPassant)
 
-  if (pieceId === null) {
-    return false
-  }
-
-  const piece = pieces.get(pieceId)!
-
-  if (piece.type === PieceTypeEnum.Pawn) {
-    return canMovePawn(from, to, board, pieces, piece, enPassant)
-  }
-
-  if (piece.type === PieceTypeEnum.Knight) {
-    return canMoveKnight(from, to, board, pieces, piece)
-  }
-
-  if (piece.type === PieceTypeEnum.Bishop) {
-    return canMoveBishop(from, to, board, pieces, piece)
-  }
-
-  if (piece.type === PieceTypeEnum.Rook) {
-    return canMoveRook(from, to, board, pieces, piece)
-  }
-
-  if (piece.type === PieceTypeEnum.Queen) {
-    return canMoveQueen(from, to, board, pieces, piece)
-  }
-
-  if (piece.type === PieceTypeEnum.King) {
-    return canMoveKing(from, to, board, pieces, piece)
-  }
-
-  return true
+  return validMoves.some(
+    (move) => move.file === to.file && move.rank === to.rank
+  )
 }

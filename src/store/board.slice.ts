@@ -37,7 +37,7 @@ export const createBoardSlice: StateCreator<StoreState, [], [], BoardSlice> = (
   enPassantPawn: null,
   select: (coordinate) => {
     set((state) => {
-      const legalMoves = getLegalMoves(
+      const legalMoves: Coordinate[] = getLegalMoves(
         coordinate,
         state.board,
         state.pieces,

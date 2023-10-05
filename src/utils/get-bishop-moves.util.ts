@@ -4,7 +4,7 @@ import { PieceEntity } from '../types/piece.interface'
 import { SetOfPieces } from '../types/set-of-pieces'
 import { getDirectionMoves } from './get-direction-moves.util'
 
-export function getLegalMovesBishop(
+export function getBishopMoves(
   from: Coordinate,
   board: Board,
   pieces: SetOfPieces,

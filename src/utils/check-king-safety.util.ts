@@ -4,7 +4,7 @@ import { Coordinate } from '../types/coordinate.interface'
 import { PieceId } from '../types/piece-id'
 import { PieceEntity } from '../types/piece.interface'
 import { SetOfPieces } from '../types/set-of-pieces'
-import { canMove } from './can-move.util'
+import { canAttack } from './can-attack.util'
 
 export function checkKingSafety(
   from: Coordinate,
@@ -42,6 +42,6 @@ export function checkKingSafety(
     .filter((coordinate): coordinate is Coordinate => coordinate !== null)
 
   return !opponentsPieceCoordinates.some((from) =>
-    canMove(from, kingCoordinates, nextBoard, pieces, null)
+    canAttack(from, kingCoordinates, nextBoard, pieces, null)
   )
 }

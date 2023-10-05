@@ -1,18 +1,18 @@
 import { Board } from '../classes/board.class'
 import { Coordinate } from '../types/coordinate.interface'
 import { SetOfPieces } from '../types/set-of-pieces'
-import { getLegalMoves } from './get-legal-moves.util'
+import { getMoves } from './get-moves.util'
 
-export function canMove(
+export function canAttack(
   from: Coordinate,
   to: Coordinate,
   board: Board,
   pieces: SetOfPieces,
   enPassant: Coordinate | null
 ): boolean {
-  const legalMoves: Coordinate[] = getLegalMoves(from, board, pieces, enPassant)
+  const possibleMoves: Coordinate[] = getMoves(from, board, pieces, enPassant)
 
-  return legalMoves.some(
+  return possibleMoves.some(
     (move) => move.file === to.file && move.rank === to.rank
   )
 }

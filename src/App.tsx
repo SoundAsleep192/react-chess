@@ -10,6 +10,7 @@ export function App() {
         <li>Castle</li>
         <li>Promotion</li>
         <li>Checkmate detection</li>
+        <li>Stalemate detection</li>
         <li>Game restart</li>
         <li>Timers</li>
         <li>Track of moves (*with import)</li>

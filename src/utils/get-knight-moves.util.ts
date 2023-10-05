@@ -6,7 +6,7 @@ import { SetOfPieces } from '../types/set-of-pieces'
 import { coordinateExists } from './coordinate-exists.util'
 import { offsetCoordinate } from './offset-coordinate.util'
 
-export function getLegalMovesKnight(
+export function getKnightMoves(
   from: Coordinate,
   board: Board,
   pieces: SetOfPieces,
@@ -23,7 +23,7 @@ export function getLegalMovesKnight(
     offsetCoordinate(from, -1, -2),
   ]
 
-  const legalMoves: Coordinate[] = possibleMoves.filter((move) => {
+  const moves: Coordinate[] = possibleMoves.filter((move) => {
     if (!coordinateExists(move)) {
       return false
     }
@@ -39,5 +39,5 @@ export function getLegalMovesKnight(
     return targetPiece.color !== knight.color
   })
 
-  return legalMoves
+  return moves
 }

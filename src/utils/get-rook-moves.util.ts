@@ -4,7 +4,7 @@ import { PieceEntity } from '../types/piece.interface'
 import { SetOfPieces } from '../types/set-of-pieces'
 import { getDirectionMoves } from './get-direction-moves.util'
 
-export function getLegalMovesRook(
+export function getRookMoves(
   from: Coordinate,
   board: Board,
   pieces: SetOfPieces,
